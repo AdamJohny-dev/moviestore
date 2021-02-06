@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!-- Preloader -->
+<div id="preloader">
+    <i class="circle-preloader"></i>
+    <img src="{% static 'img/core-img/dvd-logo.png' %}" alt="">
+</div>
+
+{% include 'partials/_search_by_title.html' %}
+
+{% include 'partials/_menu_owner.html' with owner_patent=owner.type_user %}
+
+<!-- ##### Contact Form Area Start ##### -->
+<div class="contact-area section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section-heading">
+                    <h3>Edit your movie, {{ user.username }} :)</h3>
+                </div>
+            </div>
+        </div>
+        {% include 'partials/_alerts.html'%}
+        <div class="row">
+            <div class="col-12">
+            <p>All field are required!</p>
+                <div class="contact-form-area">
+                    <form action="{% url 'update_movie' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="text" id="movie_id" class="form-control" name="movie_id" value="{{movie.id}}" hidden>
+                        <div class="row">
+                            <div class="col-12 col-lg-12">
+                                <label for="title"><b>Title movie</b></label>
+                                <input type="text" id="title" class="form-control" name="title" placeholder="Ex. Crossroads" value="{{movie.title}}" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="file"><b>Year</b></label>
+                                <input class="form-control" name="year" placeholder="Ex. 2000" value="{{movie.year}}" required></input>
+                            </div>
+                           <div class="col-12">
+                                <label for="file"><b>Director</b></label>
+                                <input class="form-control" name="director" placeholder="Ex. Will Smith" value="{{movie.director}}" required></input>
+                            </div>
+                            <div class="col-12">
+                                <label for="file"><b>Genre</b></label>
+                                <input class="form-control" name="genre" placeholder="Ex. Action" required value="{{movie.genre}}" ></input>
+                            </div>
+                            <div class="col-12">
+                                <label for="file"><b>Description</b></label>
+                                <textarea  class="form-control" name="description" cols="30" rows="10" placeholder="Ex. An epic movie!" required >{{movie.description}}</textarea>
+                            </div>
+                            <div class="col-12 col-lg-4">
+                                <label for="file"><b>Current Picture</b></label>
+                                <img src="{{ movie.picture.url }}" alt="">
+                            </div>
+                            <div class="col-12 col-lg-4">
+                                <label for="file"><b>Picture</b></label>
+                                <input type="file" class="form-control" name="picture">
+                            </div>
+                            <div class="col-12 col-lg-2">
+                                <label for="file"><b>IMDB score</b></label>
+                                <input type="number" step="0.1" class="form-control" name="imdb_score" placeholder="Ex. 8.1" value="{{movie.imdb_score}}" ></input>
+                            </div>
+                            <div class="col-12 col-lg-3">
+                               <label for="file"><b>Price (by week)</b></label>
+                               <input type="number" step="0.1" class="form-control" name="price" placeholder="Ex. 3.50 (in dollars)" value="{{movie.price}}">
+                           </div>
+                           <div class="col-12 col-lg-3">
+                               <label for="file"><b>Quantity on stock</b></label>
+                               <input type="number" step="1" class="form-control" name="stock" placeholder="Ex. 10" value="{{movie.quantity_stock}}">
+                           </div>
+                            <div class="col-12 text-center">
+                                <button class="btn btn-success" type="submit">Update</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'partials/_footer.html' %}
+{% endblock %}

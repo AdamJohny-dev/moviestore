@@ -1,0 +1,96 @@
+  {% block content %}
+<!DOCTYPE html>
+<html>
+        <div id="form-details" class="modal fade">
+            <div class="modal-lg">
+                <div class="modal-content">
+                    <div id="form-modal-body" class="modal-body">
+                        <form action="{% url 'details_movie' %}" method="post" enctype="multipart/form-data">
+                           {% csrf_token %}
+                       <div class="row">
+                       <div class="col-12">
+                            <div id="movie-box">
+                               <label ><b>Movie: {{movie.title}}</b></label>
+                               <input type="text" id="movie-name" class="form-control" name="movie-name" readonly="readonly">
+                           </div>
+                            <div id="name-box">
+                               <label><b>Name: </b></label>
+                               <input type="text" id="name" class="form-control" name="name" value="{{user.username}}" disabled>
+                           </div>
+                           </div>
+                           <div class="col-12">
+                               <label for="date_start"><b>Date Start</b></label>
+                                <input type="text" id="date-start" class="form-control" name="date-start" readonly="readonly">
+                           </div>
+                            <div class="col-12">
+                               <label for="date_end"><b>Date End</b></label>
+                               <input type="text" id="date-end" class="form-control" name="date-end" readonly="readonly">
+                               
+                           </div>
+                            <div class="col-12 col-lg-3">
+                               <label for="file"><b>Price (by week)</b></label>
+                               <div style="display:flex; flex-direction: row; justify-content: center; align-items: center">
+                               <input type="number" step="0.1" class="form-control" id="price" name="price"  readonly="readonly">
+                               <label style="font-size:16px; padding-left: 2%;">dollars</label>
+                               </div>
+                           </div>
+                           <div class="col-12 text-center">
+                               <button class="btn btn-success mt-30">All right!</button>
+                           </div>
+                       </div>
+                   </form>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="{% url 'index' %}">Close!</a>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal --> 
+        {% block js %}
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <script>
+                 $(document).ready(function(){
+                    $(".details-rent").click(function(){ 
+                    $("#movie-name").val($(this).data('id'));
+                    $("#date-start").val($(this).data('class'));
+                    $("#date-end").val($(this).data('end'));
+                    $("#price").val($(this).data('price'));
+                        
+                 });
+                        });
+                
+                var formAjaxSubmit = function(form, modal) {
+                $(form).submit(function (e) {
+                     e.preventDefault();
+                    $.ajax({
+                        type: $(this).attr('method'),
+                        url: $(this).attr('action'),
+                        data: $(this).serialize(),
+                        success: function (xhr, ajaxOptions, thrownError) {
+                            if ( $(xhr).find('.has-error').length > 0 ) {
+                                $(modal).find('.modal-body').html(xhr);
+                                formAjaxSubmit(form, modal);
+                            } else {
+                                $(modal).modal('toggle');
+                            }
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                        }
+                    });
+                });
+            }
+            $('.details-rent').click(function() {
+                
+                $('#form-modal-body').load('/index/', function () {
+                    
+                    $('#form-details').modal('toggle');
+                    return false;
+                });
+            });
+        </script>
+        {% endblock js %}
+        
+    </body>
+</html>
+{% endblock %}

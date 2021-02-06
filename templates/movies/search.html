@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+
+    .redim-image{
+        max-width: 100%;
+        width: 240px;
+        height: 240px; 
+    }
+
+</style>
+    <!-- Preloader -->
+    <div id="preloader">
+        <i class="circle-preloader"></i>
+        <img src="{% static 'img/core-img/preloader-logo.jpg' %}" alt="">
+    </div>
+
+    
+   {% include 'partials/_search_by_title.html' %}
+   {% include 'partials/_menu.html' with right_user=right_user.type_user %}
+   {% include 'partials/_search_by_genre.html' %}
+
+    <!-- ##### Best Receipe Area Start ##### -->
+    <section class="best-receipe-area">
+        <div class="container">
+            <div class="row">
+                {% if movies %}
+                {% for movie in movies %}
+                <!-- Single Best Receipe Area -->
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="single-best-receipe-area mb-30">
+                        {% if movie.picture == '' %}
+                            <img src="{% static 'img/bg-img/moviestore.png'%}" class="redim-image" alt="">
+                        {% else %}
+                            <img src="{{ movie.picture.url }}"" class="redim-image" alt="">
+                        {% endif %}
+                        <div class="receipe-content">
+                            <a href="{% url 'movie' movie.id %}">
+                                <h5>{{ movie.title }}</h5>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                 <div class="col-12 col-sm-6 col-lg-4">
+                 <p>Movie not found!</p>
+                 </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    <!-- ##### Best Receipe Area End ##### -->
+
+   {% include 'partials/_footer.html' %}
+   {% include 'partials/_footer.html' %}
+
+    {% endblock %}
+    

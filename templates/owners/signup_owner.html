@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+ <!-- Preloader -->
+    <div id="preloader">
+        <i class="circle-preloader"></i>
+        <img src="{% static 'img/core-img/dvd-logo.png' %}" alt="">
+    </div>
+
+{% include 'partials/_search_by_title.html' %}
+
+{% include 'partials/_menu_owner.html' with owner_patent=owner.type_user %}
+
+<!-- ##### Contact Form Area Start ##### -->
+<div class="contact-area section-padding-0-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section-heading">
+                    <h2>Join us!</h2>
+                </div>
+            </div>
+        </div>
+        {% include 'partials/_alerts.html' %}
+        <div class="row">
+            <div class="col-12">
+                <div class="contact-form-area">
+                    <form action="{% url 'signup_owner' %}" method="POST">
+                    {% csrf_token %}
+                        <div class="row">
+                           <div class="col-12 col-lg-6">
+                                <label class="serialkey" for="serialkey"><b>Insert Key Serial</b></label>
+                                <input type="text" class="form-control" name="serialkey" placeholder="Type your serial key" required
+                                        style="color: red;">
+                            </div>
+                            <div class="col-12 col-lg-12">
+                                <label for="movie_title"><b>Full name</b></label>
+                                <input type="text" class="form-control" name="name" placeholder="Ex.:Mateus Felipe" required>
+                            </div>
+                            <div class="col-12 col-lg-12">
+                                <label for="email"><b>Email</b></label>
+                                <input type="email" class="form-control" name="email" placeholder="Ex.: example@example.com" required>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <label for="password"><b>Password</b></label>
+                                <input type="password" class="form-control" name="password" placeholder="Type your password" required>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <label for="password2"><b>Verify Password</b></label>
+                                <input type="password" class="form-control" name="password2" placeholder="Type your password again" required>
+                            </div>
+                            <div class="col-12 text-center">
+                                <button class="btn btn-success" type="submit">Register</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'partials/_footer.html' %}
+{% endblock %}

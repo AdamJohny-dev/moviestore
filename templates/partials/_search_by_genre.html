@@ -1,0 +1,52 @@
+{% load static %}
+
+<!-- Receipe Post Search -->
+        <div class="receipe-post-search mb-80">
+            <div class="container">
+                <form action="{% url 'search_genre' %}">
+               
+                    <div class="row">
+                        <div class="col-12 col-lg-5">
+                        <select name="list-genres"   id="list-genres">
+                            <option value="" selected></option>
+                            <option value="">All</option>
+                            <option value="Action">Action</option>
+                            <option value="Adventure">Adventure</option>
+                            <option value="Drama">Drama</option>
+                            <option value="Terror">Terror</option>
+                            <option value="Sci-Fy">Sci-fy</option>
+                            <option value="Comedy">Comedy</option>
+                            <option value="Romance">Romance</option>
+                            <option value="Music">Music</option>
+                            <option value="Documentary">Documentary</option>
+                            <option value="War">War</option>
+                        </select>
+                            
+                        </div>
+                        <div class="col-12 col-lg-2 text-right">
+                            <button type="submit" class="btn delicious-btn" id="show-genres">List By Genre :)</button>
+                             <label for="show-genre" class="show-genre" style="padding-top: 30%; font-size: 30px; font-weight: bold;">Genre</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% block js %}
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+            <script>
+ 
+var selectedVal;
+$("#show-genres").click(function(){
+   selectedVal = $('#list-genres').find(":selected").text();
+   localStorage.setItem("selectedVal", selectedVal);
+});
+$( document ).ready(function() {
+    var storageSelectedVal = localStorage.getItem("selectedVal");
+    $("label[for = show-genre]").text(storageSelectedVal); 
+   
+});
+
+</script>
+        {% endblock js %}
+<!-- ##### Header Area End ##### -->

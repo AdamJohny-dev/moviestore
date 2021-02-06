@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+
+    .redim-image{
+        max-width: 100%;
+        width: 240px;
+        height: 240px; 
+    }
+    
+    .btn {
+       position: relative;
+       right: 15%;
+    }
+
+</style>
+    <!-- Preloader -->
+    <div id="preloader">
+        <i class="circle-preloader"></i>
+        <img src="{% static 'img/core-img/preloader-logo.jpg' %}" alt="">
+    </div>
+
+   
+   {% include 'partials/_search_by_title.html' %}
+   {% include 'partials/_menu_owner.html' with owner_patent=owner.type_user %}
+
+   <div class="contact-area section-padding-0">
+   <div class="container">
+       <div class="row">
+           <div class="col-12">
+               <div class="section-heading">
+                   <h3>Hello {{ user.username }}</h3>
+               </div>
+           </div>
+       </div>
+   </div>
+</div>
+    <!-- ##### Best Receipe Area Start ##### -->
+    <section class="best-receipe-area">
+        <div class="container">
+            <div class="row">
+                {% if movies %}
+                {% for movie in movies %}
+                <!-- Single Best Receipe Area -->
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="single-best-receipe-area mb-30">
+                        {% if movie.picture == '' %}
+                            <img src="{% static 'img/bg-img/moviestore.png'%}" class="redim-image" alt="">
+                        {% else %}
+                            <img src="{{ movie.picture.url }}"" class="redim-image" alt="">
+                        {% endif %}
+                        <div class="receipe-content">
+                            <a href="{% url 'movie' movie.id %}">
+                                <h5>{{ movie.title }}</h5>
+                                <a href="{% url 'edit_movie' movie.id   %}" type="button" class="btn btn-info">Edit</a>
+                                <a href="{% url 'delete_movie' movie.id %}" type="button" class="btn btn-danger">Delete</a>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                {% endif %}
+            </div>
+        </div>
+        {% include 'partials/_paginator.html' %}
+    </section>
+    <!-- ##### Best Receipe Area End ##### -->
+   {% include 'partials/_footer.html' %}
+
+    {% endblock %}
+    

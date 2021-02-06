@@ -1,0 +1,82 @@
+   {% block content %}
+<!DOCTYPE html>
+<html>
+        <div id="form-warning" style="padding-left: 40%; padding-top: 20%;" class="modal form-warning">
+            <div class="modal-sm">
+                <div class="modal-content">
+                    <div id="form-modal-body" class="modal-body">
+                        <form action="{% url 'cancel_warning' %}" method="post" enctype="multipart/form-data">
+                           {% csrf_token %}
+                        <div class="row">
+                       <div class="col-12">
+                      
+                       <div id="movie-already-taken">
+                               <input type="text" id="movie-name-taken" class="form-control" name="movie-name-taken" >
+                        </div>
+                            <div id="movie-box">
+                               <label ><b>Type again the movie name:</b></label>
+                               <input type="text" id="movie-name" class="form-control" name="movie-name" required>
+                           </div>
+                        </div>
+                       <div class="col-16">
+                       <label style="font-size: 14px; font-weight: bold;">This action will add a $ 5 fine. Are you sure?</label>
+                            <div style="padding-left: 30%">
+                               <button class="btn btn-danger mt-30">
+                                 <a style="color: white;" type="submit">I'm sure!</a>
+                               </button>
+                               <button class="btn btn-success mt-30">
+                                 <a style="color: white;" href="{% url 'dashboard_client' %}">Return</a>
+                               </button>
+                           </div>
+                       </div>
+                   </form>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal --> 
+        {% block js %}
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <script>
+  
+                 $(document).ready(function(){
+                    $(".cancel-warning").click(function(){ 
+                    $("#movie-name-taken").val($(this).data('id'));
+                        
+                 });
+                        });
+                var formAjaxSubmit = function(form, modal) {
+                $(form).submit(function (e) {
+                     e.preventDefault();
+                    $.ajax({
+                        type: $(this).attr('method'),
+                        url: $(this).attr('action'),
+                        data: $(this).serialize(),
+                        success: function (xhr, ajaxOptions, thrownError) {
+                            if ( $(xhr).find('.has-error').length > 0 ) {
+                                $(modal).find('.modal-body').html(xhr);
+                                formAjaxSubmit(form, modal);
+                            } else {
+                                $(modal).modal('toggle');
+                            }
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                        }
+                    });
+                });
+            }
+            $('.cancel-warning').click(function() {
+                
+                $('#form-modal-body').load('/index/', function () {
+                    
+                    $('#form-warning').modal('toggle');
+                    return false;
+                });
+            });
+        </script>
+        {% endblock js %}
+        
+    </body>
+</html>
+
+{% endblock %}

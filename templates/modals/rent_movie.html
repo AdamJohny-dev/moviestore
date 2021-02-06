@@ -1,0 +1,87 @@
+  
+<!DOCTYPE html>
+<html>
+        <div id="form-modal" class="modal fade">
+            <div class="modal-lg">
+                <div class="modal-content">
+                    <div id="form-modal-body" class="modal-body">
+                        <form action="{% url 'rent_movie' %}" method="post" enctype="multipart/form-data">
+                           {% csrf_token %}
+                       <div class="row">
+                       <div class="col-12">
+                            <div id="movie-box">
+                               <label><b>Movie: {{movie.title}}</b></label>
+                               <input type="hidden" id="movie-name" class="form-control" name="movie-name" value="{{movie.title}}">
+                           </div>
+                            <div id="name-box">
+                               <label><b>Name: </b></label>
+                               <label><b>{{user.username}}</b></label>
+                               <input type="hidden" id="name" class="form-control" name="name" value="{{user.username}}">
+                           </div>
+                           
+                           <div id="movie-price">
+                               <label><b>Price: {{movie.price}}</b></label>
+                               <input type="hidden" id="movie-price" class="form-control" name="movie-price" value="{{movie.price}}">
+                           </div>
+                           </div>
+                           <div class="col-12 col-lg-12">
+                               <label for="cpf"><b>CPF</b></label>
+                               <input type="text" id="cpf" class="form-control" name="cpf" placeholder="Ex. 111.222.333-44" required>
+                           </div>
+                           <div class="col-12">
+                               <label for="date_start"><b>Date Start</b></label>
+                               <input type="date" class="form-control" name="date-start" placeholder="11/01/2001" required>
+                           </div>
+                            <div class="col-12">
+                               <label for="date_end"><b>Date End</b></label>
+                               <input type="date" class="form-control" name="date-end" placeholder="20/05/2001" required>
+                           </div>
+                           <div class="col-12 text-center">
+                               <button class="btn btn-success mt-30" type="submit">Enjoy!</button>
+                           </div>
+                       </div>
+                   </form>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="{% url 'index' %}">Close</a>!
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal --> 
+        {% block js %}
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <script>
+            
+                var formAjaxSubmit = function(form, modal) {
+                $(form).submit(function (e) {
+                     e.preventDefault();
+                    $.ajax({
+                        type: $(this).attr('method'),
+                        url: $(this).attr('action'),
+                        data: $(this).serialize(),
+                        success: function (xhr, ajaxOptions, thrownError) {
+                            if ( $(xhr).find('.has-error').length > 0 ) {
+                                $(modal).find('.modal-body').html(xhr);
+                                formAjaxSubmit(form, modal);
+                            } else {
+                                $(modal).modal('toggle');
+                            }
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                        }
+                    });
+                });
+            }
+            $('#show-modal').click(function() {
+                
+                $('#form-modal-body').load('/rented/rent_movie/', function () {
+                    
+                    $('#form-modal').modal('toggle');
+                    return false;
+                });
+            });
+        </script>
+        {% endblock js %}
+    </body>
+</html>

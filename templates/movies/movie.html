@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <!-- Preloader -->
+    <div id="preloader">
+        <i class="circle-preloader"></i>
+        <img src="{% static 'img/core-img/dvd-logo.jpg' %}" alt="">
+    </div>
+
+    {% include 'partials/_search_by_title.html' %}
+    {% include 'partials/_menu.html' with right_user=right_user.type_user %}
+
+
+        <!-- Receipe Slider -->
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="receipe-slider owl-carousel">
+                        {% if movie.picture == '' %}
+                            <img src="{% static 'img/bg-img/movie_banner.jpg' %}">
+                        {% else %}
+                            <img src="{{ movie.picture.url }}"" class="redim-image" alt="">
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Receipe Content Area -->
+        <div class="receipe-content-area">
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-12 col-md-8">
+                        <div class="receipe-headline my-5">
+                            <h2>Title: {{movie.title}}</h2>
+                            <div class="receipe-duration">
+                                <h6>Year: {{movie.year}}</h6>
+                                <h6>Director: {{movie.director}}</h6>
+                                <h6>Genre: {{movie.genre}}</h6>
+                                <h6>Description: {{movie.description}}</h6>
+                                <h6>IMDB score: {{movie.imdb_score}}</h6>
+                                {% if right_user.type_user == "owner" and  movie.quantity_stock >= 0%}
+                                <h6>Quantity on stock: {{movie.quantity_stock}}</h6>
+                                {% elif  movie.quantity_stock == 0%}
+                                <h6>Quantity on stock: Stock EMPTY!!!</h6>
+                                {% else %}
+                                <h6></h6>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if  movie.quantity_stock >= 0 and right_user.type_user == "client" %}
+                         <button id="show-modal" class="rent btn-info">Rent</button>
+                          {% include 'modals/rent_movie.html' %}
+                        {% elif movie.quantity_stock == 0  or right_user.type_user == "client" %}
+                         <h6 class="go-to-login info">You already rented this movie!</h6>
+                        {% else %}
+                         <h6 class="go-to-login info">Access login menu to rent your movie!</h6>
+                         {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+                
+
+    {% include 'partials/_footer.html' %}
+
+ {% endblock %}

@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!-- Preloader -->
+<div id="preloader">
+   <i class="circle-preloader"></i>
+   <img src="{% static 'img/core-img/preloader-logo.jpg' %}" alt="">
+</div>
+ 
+{% include 'partials/_search_by_title.html' %}
+ 
+{% include 'partials/_menu.html' with right_user=right_user.type_user %}
+ 
+<!-- ##### Contact Form Area Start ##### -->
+<div class="contact-area section-padding-0-80">
+   <div class="container">
+       <div class="row">
+           <div class="col-12">
+               <div class="section-heading">
+                   <h3>Create your movies, {{ user.username }} :)</h3>
+               </div>
+           </div>
+       </div>
+ 
+       <div class="row">
+           <div class="col-12">
+           <p>All fields are required!</p>
+               <div class="contact-form-area">
+                   <form action="{% url 'create_movie' %}" method="post" enctype="multipart/form-data">
+                           {% csrf_token %}
+                       <div class="row">
+                           <div class="col-12 col-lg-12">
+                               <label for="title"><b>Movie title</b></label>
+                               <input type="text" id="title" class="form-control" name="title" placeholder="Ex. Crossroads" required>
+                           </div>
+                           <div class="col-12">
+                               <label for="file"><b>Year</b></label>
+                               <input class="form-control" name="year" placeholder="Ex. 2000" required>
+                           </div>
+                           <div class="col-12">
+                               <label for="file"><b>Director</b></label>
+                               <input class="form-control" name="director" placeholder="Ex. Will Smith" required>
+                           </div>
+                            <div class="col-12">
+                               <label for="file"><b>Genre</b></label>
+                               <input class="form-control" name="genre" placeholder="Ex. Action" required>
+                           </div>
+                           <div class="col-12">
+                               <label for="file"><b>Description</b></label>
+                               <textarea class="form-control" name="description" cols="30" rows="10" placeholder="An epic movie!" required></textarea>
+                           </div>
+                            <div class="col-12 col-lg-3">
+                               <label for="file"><b>Picture</b></label>
+                               <input type="file" class="form-control" name="picture" required>
+                           </div>
+                           <div class="col-12 col-lg-3">
+                               <label for="file"><b>IMDB Score</b></label>
+                               <input type="number" step="0.1" class="form-control" name="imdb_score" placeholder="Ex. 8.1" required>
+                           </div>
+                           <div class="col-12 col-lg-3">
+                               <label for="file"><b>Price (by week)</b></label>
+                               <input type="number" step="0.1" class="form-control" name="price" placeholder="Ex. 3.50 (in dollars)" required>
+                           </div>
+                           <div class="col-12 col-lg-3">
+                               <label for="file"><b>Quantity on stock</b></label>
+                               <input type="number" step="1" class="form-control" name="stock" placeholder="Ex. 10" required>
+                           </div>
+                           
+                           <div class="col-12 text-center">
+                               <button class="btn btn-success mt-30" type="submit">Create your movie</button>
+                           </div>
+                       </div>
+                   </form>
+               </div>
+           </div>
+       </div>
+   </div>
+</div>
+ 
+{% include 'partials/_footer.html' %}
+{% endblock %}
