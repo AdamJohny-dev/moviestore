@@ -5,7 +5,7 @@ by owners and a friendly template for clients.
 
 This project is written with django 3.1.6 and python 3 in mind.
 
-![alt text](https://ibb.co/TkgcpDF)
+![alt text](https://i.ibb.co/JKsn0WM/download.png)
 ### Main features
 
 * Separated enviromnent of clients and owners
